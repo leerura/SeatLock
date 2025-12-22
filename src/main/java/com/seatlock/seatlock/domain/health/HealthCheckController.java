@@ -1,4 +1,4 @@
-package com.seatlock.seatlock.health;
+package com.seatlock.seatlock.domain.health;
 
 
 import com.seatlock.seatlock.common.ApiResponse;

@@ -1,4 +1,4 @@
-package com.seatlock.seatlock.health;
+package com.seatlock.seatlock.domain.health;
 
 public record HealthCheckResponseDTO(
         String status,

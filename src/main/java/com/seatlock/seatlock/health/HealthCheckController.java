@@ -1,6 +1,7 @@
 package com.seatlock.seatlock.health;
 
 
+import com.seatlock.seatlock.common.ApiResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,8 +16,9 @@ import java.util.Map;
 public class HealthCheckController {
 
     @GetMapping("/health")
-    public ResponseEntity<HealthCheckResponseDTO> healthCheck() {
-        HealthCheckResponseDTO response = HealthCheckResponseDTO.of("UP", "seat-lock");
+    public ResponseEntity<ApiResponse<HealthCheckResponseDTO>> healthCheck() {
+        HealthCheckResponseDTO data = HealthCheckResponseDTO.of("UP", "seat-lock");
+        ApiResponse<HealthCheckResponseDTO> response = ApiResponse.success(data);
         return ResponseEntity.ok(response);
     }
 

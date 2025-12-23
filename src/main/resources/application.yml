@@ -14,3 +14,12 @@ spring:
       hibernate:
         format_sql: true
         dialect: org.hibernate.dialect.MySQL8Dialect
+        jdbc:
+          batch_size: 1000           # Batch Insert 크기
+        order_inserts: true          # INSERT 쿼리 정렬
+        order_updates: true          # UPDATE 쿼리 정렬
+
+logging:
+  level:
+    org.hibernate.SQL: DEBUG                          # SQL 쿼리 로그
+    org.hibernate.type.descriptor.sql.BasicBinder: TRACE  # 파라미터 바인딩 로그

@@ -51,7 +51,7 @@ public class Seat extends BaseEntity {
     private SeatStatus status;
 
     @Version
-    @Column(name = "version")
+    @Column(name = "version", nullable = false)
     private Integer version;
 
     @Builder
@@ -59,10 +59,9 @@ public class Seat extends BaseEntity {
         this.event = event;
         this.seatNumber = seatNumber;
         this.status = status != null ? status : SeatStatus.AVAILABLE;
-        this.version = 0;
     }
 
-    public static Seat  of(Event event, String seatNumber) {
+    public static Seat of(Event event, String seatNumber) {
         return Seat.builder()
                 .event(event)
                 .seatNumber(seatNumber)

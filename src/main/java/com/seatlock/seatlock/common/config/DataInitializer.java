@@ -9,6 +9,7 @@ import com.seatlock.seatlock.domain.seat.SeatRepository;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,7 +19,7 @@ import java.util.List;
 @Slf4j
 @Component
 @RequiredArgsConstructor
-public class DataInitializer {
+public class DataInitializer implements CommandLineRunner {
 
     private final MemberRepository memberRepository;
     private final EventRepository eventRepository;
@@ -28,9 +29,9 @@ public class DataInitializer {
     private static final int TOTAL_SEATS = 1_000;
     private static final int BATCH_SIZE = 1_000;
 
-    @PostConstruct//Bean 생성 후 아래의 메서드가 실행됨
+    @Override
     @Transactional
-    public void init() {
+    public void run(String... args) throws Exception {
         log.info("==================================================");
         log.info("더미 데이터 생성 시작");
         log.info("==================================================");

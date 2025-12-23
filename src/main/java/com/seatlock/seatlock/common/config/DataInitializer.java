@@ -1,12 +1,11 @@
 package com.seatlock.seatlock.common.config;
 
 import com.seatlock.seatlock.domain.event.Event;
-import com.seatlock.seatlock.domain.event.EventRepository;
+import com.seatlock.seatlock.domain.event.repository.EventRepository;
 import com.seatlock.seatlock.domain.member.entity.Member;
 import com.seatlock.seatlock.domain.member.repository.MemberRepository;
 import com.seatlock.seatlock.domain.seat.Seat;
-import com.seatlock.seatlock.domain.seat.SeatRepository;
-import jakarta.annotation.PostConstruct;
+import com.seatlock.seatlock.domain.seat.repository.SeatRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.CommandLineRunner;

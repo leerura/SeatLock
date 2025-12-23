@@ -1,10 +1,10 @@
 package com.seatlock.seatlock.global.config;
 
-import com.seatlock.seatlock.domain.event.Event;
+import com.seatlock.seatlock.domain.event.entity.Event;
 import com.seatlock.seatlock.domain.event.repository.EventRepository;
 import com.seatlock.seatlock.domain.member.entity.Member;
 import com.seatlock.seatlock.domain.member.repository.MemberRepository;
-import com.seatlock.seatlock.domain.seat.Seat;
+import com.seatlock.seatlock.domain.seat.entity.Seat;
 import com.seatlock.seatlock.domain.seat.repository.SeatRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

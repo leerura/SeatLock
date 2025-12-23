@@ -1,7 +1,8 @@
-package com.seatlock.seatlock.domain.seat;
+package com.seatlock.seatlock.domain.seat.entity;
 
+import com.seatlock.seatlock.domain.seat.SeatStatus;
 import com.seatlock.seatlock.global.BaseEntity;
-import com.seatlock.seatlock.domain.event.Event;
+import com.seatlock.seatlock.domain.event.entity.Event;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -67,6 +68,17 @@ public class Seat extends BaseEntity {
                 .seatNumber(seatNumber)
                 .status(SeatStatus.AVAILABLE)
                 .build();
+    }
+
+    public boolean isAvailable() {
+        return status == SeatStatus.AVAILABLE;
+    }
+
+    public void reserve() {
+        if (this.status != SeatStatus.AVAILABLE) {
+            throw new IllegalStateException("예약 가능한 상태가 아닙니다.");
+        }
+        this.status = SeatStatus.RESERVED;
     }
 
 }

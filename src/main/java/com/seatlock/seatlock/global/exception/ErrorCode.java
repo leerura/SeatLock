@@ -22,8 +22,14 @@ public enum ErrorCode {
     ALREADY_RESERVED("R002", "이미 예약 내역이 존재합니다."),
     LOCK_ACQUISITION_FAILED("R003", "락 획득에 실패했습니다. 잠시 후 다시 시도해주세요."),
 
+    // Reservation 도메인 (R로 시작)
+    ALREADY_RESERVED_THIS_EVENT("R003", "이미 이 이벤트의 좌석을 예약하셨습니다."),
+    NO_AVAILABLE_SEATS("R004", "예약 가능한 좌석이 없습니다."),
+
     // Database (D)
     DATABASE_CONNECTION_ERROR("D001", "데이터베이스 연결에 실패했습니다.");
+
+
 
 
     private final String code;

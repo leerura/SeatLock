@@ -1,4 +1,4 @@
-package com.seatlock.seatlock.domain.event;
+package com.seatlock.seatlock.domain.event.entity;
 
 
 import com.seatlock.seatlock.global.BaseEntity;
@@ -49,5 +49,12 @@ public class Event extends BaseEntity {
                 .totalSeats(totalSeats)
                 .availableSeats(totalSeats) // 초기값은 전체 좌석 수와 동일
                 .build();
+    }
+
+    public void decreaseAvailableSeats() {
+        if (this.availableSeats <= 0) {
+            throw new IllegalStateException("예약 가능한 좌석이 없습니다.");
+        }
+        this.availableSeats--;
     }
 }

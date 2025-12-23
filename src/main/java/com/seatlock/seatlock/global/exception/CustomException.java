@@ -1,4 +1,4 @@
-package com.seatlock.seatlock.common.exception;
+package com.seatlock.seatlock.global.exception;
 
 import lombok.Getter;
 

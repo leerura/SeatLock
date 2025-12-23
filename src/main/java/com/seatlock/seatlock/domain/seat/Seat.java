@@ -1,6 +1,6 @@
 package com.seatlock.seatlock.domain.seat;
 
-import com.seatlock.seatlock.common.BaseEntity;
+import com.seatlock.seatlock.global.BaseEntity;
 import com.seatlock.seatlock.domain.event.Event;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

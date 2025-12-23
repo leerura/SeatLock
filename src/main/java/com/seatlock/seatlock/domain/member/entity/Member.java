@@ -1,7 +1,7 @@
 package com.seatlock.seatlock.domain.member.entity;
 
 
-import com.seatlock.seatlock.common.BaseEntity;
+import com.seatlock.seatlock.global.BaseEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;

@@ -1,4 +1,4 @@
-package com.seatlock.seatlock.common.filter;
+package com.seatlock.seatlock.global.filter;
 
 
 import jakarta.servlet.FilterChain;

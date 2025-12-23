@@ -1,4 +1,4 @@
-package com.seatlock.seatlock.common.config;
+package com.seatlock.seatlock.global.config;
 
 import com.seatlock.seatlock.domain.event.Event;
 import com.seatlock.seatlock.domain.event.repository.EventRepository;

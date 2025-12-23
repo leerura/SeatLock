@@ -1,4 +1,4 @@
-package com.seatlock.seatlock.common.aop;
+package com.seatlock.seatlock.global.aop;
 
 
 import lombok.extern.slf4j.Slf4j;
@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class LoggingAspect {
 
-    @Around("execution(* com.seatlock.seatlock.domain..service..*(..))")
+    @Around("execution(* com.seatlock.seatlock.domain..*Service.*(..))")
     public Object logExecutionTime(ProceedingJoinPoint joinPoint) throws Throwable {
 
         long startTime = System.currentTimeMillis();
@@ -31,7 +31,7 @@ public class LoggingAspect {
         return result;
     }
 
-    @Around("execution(* com.seatlock.seatlock.domain..Repository..*(..))")
+    @Around("execution(* com.seatlock.seatlock.domain..*Repository.*(..))")
     public Object logRepositoryExecutionTime(ProceedingJoinPoint joinPoint) throws Throwable {
 
         long startTime = System.currentTimeMillis();

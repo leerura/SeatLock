@@ -1,6 +1,6 @@
-package com.seatlock.seatlock.common;
+package com.seatlock.seatlock.global;
 
-import com.seatlock.seatlock.common.exception.ErrorCode;
+import com.seatlock.seatlock.global.exception.ErrorCode;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 

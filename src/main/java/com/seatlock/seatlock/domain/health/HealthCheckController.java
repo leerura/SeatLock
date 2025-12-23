@@ -1,7 +1,7 @@
 package com.seatlock.seatlock.domain.health;
 
 
-import com.seatlock.seatlock.common.ApiResponse;
+import com.seatlock.seatlock.global.ApiResponse;
 import com.seatlock.seatlock.domain.health.service.HealthCheckService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;

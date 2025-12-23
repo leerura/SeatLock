@@ -1,7 +1,7 @@
-package com.seatlock.seatlock.common.exception;
+package com.seatlock.seatlock.global.exception;
 
 
-import com.seatlock.seatlock.common.ApiResponse;
+import com.seatlock.seatlock.global.ApiResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

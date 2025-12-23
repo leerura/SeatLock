@@ -1,4 +1,4 @@
-package com.seatlock.seatlock.common.aop;
+package com.seatlock.seatlock.global.aop;
 
 
 import lombok.extern.slf4j.Slf4j;
@@ -34,9 +34,9 @@ public class TransactionLoggingAspect {
 
             return result;
 
-        } catch (Exception e) {
-            log.error("[Transaction] 롤백: {} | 에러: {}", txId, e.getMessage());
-            throw e;
+        } catch (Throwable t) {
+            log.error("[Transaction] 롤백: {} | 에러: {}", txId, t.getMessage());
+            throw t;
 
         } finally {
             // 4. MDC에서 제거 (중요!)

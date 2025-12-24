@@ -34,8 +34,9 @@ public class ReservationService {
             throw new CustomException(ErrorCode.SEAT_ALREADY_RESERVED);
         }
 
+        Event event = seat.getEvent();
         // 3. 중복 예약 체크 (같은 이벤트에 이미 예약했는지)
-        Long eventId = seat.getEvent().getId();
+        Long eventId = event.getId();
         if (reservationRepository.existsByMemberIdAndEventId(memberId, eventId)) {
             throw new CustomException(ErrorCode.ALREADY_RESERVED_THIS_EVENT);
         }
@@ -44,7 +45,6 @@ public class ReservationService {
         seat.reserve();
 
         // 5. Event의 availableSeats 감소
-        Event event = seat.getEvent();
         event.decreaseAvailableSeats();
 
         // 6. 예약 생성

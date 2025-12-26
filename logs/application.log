@@ -42266,3 +42266,8 @@
         id=?
 2025-12-26 15:50:44.237 [http-nio-8080-exec-2] [bf0f49ba] [] DEBUG c.s.s.d.r.facade.ReservationFacade - 좌석 1번 락 해제 - memberId: 1
 2025-12-26 15:50:44.249 [http-nio-8080-exec-2] [bf0f49ba] [] INFO  c.s.s.g.filter.RequestLoggingFilter - 요청 완료: 상태코드 201
+2025-12-26 15:58:39.120 [SpringApplicationShutdownHook] [] [] INFO  o.s.b.w.e.tomcat.GracefulShutdown - Commencing graceful shutdown. Waiting for active requests to complete
+2025-12-26 15:58:39.123 [tomcat-shutdown] [] [] INFO  o.s.b.w.e.tomcat.GracefulShutdown - Graceful shutdown complete
+2025-12-26 15:58:39.125 [SpringApplicationShutdownHook] [] [] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2025-12-26 15:58:39.127 [SpringApplicationShutdownHook] [] [] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+2025-12-26 15:58:39.129 [SpringApplicationShutdownHook] [] [] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.

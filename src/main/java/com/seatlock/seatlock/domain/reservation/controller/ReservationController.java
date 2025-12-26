@@ -1,7 +1,6 @@
 package com.seatlock.seatlock.domain.reservation.controller;
 
 import com.seatlock.seatlock.domain.reservation.facade.ReservationFacade;
-import com.seatlock.seatlock.domain.reservation.repository.ReservationRepository;
 import com.seatlock.seatlock.global.ApiResponse;
 import com.seatlock.seatlock.domain.reservation.dto.ReservationRequestDTO;
 import com.seatlock.seatlock.domain.reservation.dto.ReservationResponseDTO;

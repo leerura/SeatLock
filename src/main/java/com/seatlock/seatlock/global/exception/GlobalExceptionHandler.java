@@ -57,7 +57,7 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(LockAcquisitionFailedException.class)
-    public ResponseEntity<ApiResponse<?>> handleLockAcquisitionFailedException(LockAcquisitionFailedException e) {
+    public ResponseEntity<ApiResponse<Void>> handleLockAcquisitionFailedException(LockAcquisitionFailedException e) {
         log.error("LockAcquisitionFailedException: code={}, message={}",
                 e.getErrorCode().getCode(),
                 e.getErrorCode().getMessage());

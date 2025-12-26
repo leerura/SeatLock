@@ -27,6 +27,21 @@ public class LockManager {
     }
 
     /**
+     * 좌석 ID에 해당하는 락을 제거 (사용 완료 후 메모리 정리)
+     * 주의: 해당 락을 사용 중인 스레드가 없을 때만 안전
+     *
+     * @param seatId 좌석 ID
+     */
+    public void removeLock(Long seatId) {
+        ReentrantLock lock = locks.get(seatId);
+        // 락이 사용 중이 아닐 때만 제거 (안전성 보장)
+        if (lock != null && !lock.isLocked() && !lock.hasQueuedThreads()) {
+            locks.remove(seatId);
+            log.debug("좌석 {}번 락 제거 (메모리 정리)", seatId);
+        }
+    }
+
+    /**
      * 현재 관리 중인 락의 개수 반환 (모니터링용)
      *
      * @return 락 개수

@@ -56,4 +56,42 @@ public class ReservationService {
 
         return ReservationResponseDTO.from(reservation);
     }
+
+    // Java Lock용 새 메서드 (트랜잭션 없음)
+    public ReservationResponseDTO createReservationWithoutTransaction(Long memberId, Long seatId) {
+        log.info("예약 시작 - memberId: {}, seatId: {}", memberId, seatId);
+
+        // 1. 좌석 조회
+        Seat seat = seatRepository.findById(seatId)
+                .orElseThrow(() -> new CustomException(ErrorCode.SEAT_NOT_FOUND));
+
+        // 2. 좌석 예약 가능 여부 확인
+        if (!seat.isAvailable()) {
+            throw new CustomException(ErrorCode.SEAT_ALREADY_RESERVED);
+        }
+
+        Event event = seat.getEvent();
+
+        // 3. 중복 예약 체크
+        Long eventId = event.getId();
+        if (reservationRepository.existsByMemberIdAndEventId(memberId, eventId)) {
+            throw new CustomException(ErrorCode.ALREADY_RESERVED_THIS_EVENT);
+        }
+
+        // 4. 좌석 예약 처리
+        seat.reserve();
+
+        // 5. Event의 availableSeats 감소
+        event.decreaseAvailableSeats();
+
+        // 6. 예약 생성
+        Reservation reservation = Reservation.of(memberId, seatId, eventId);
+        reservationRepository.save(reservation);
+
+        log.info("예약 완료 - reservationId: {}", reservation.getId());
+
+        return ReservationResponseDTO.from(reservation);
+    }
+
+
 }

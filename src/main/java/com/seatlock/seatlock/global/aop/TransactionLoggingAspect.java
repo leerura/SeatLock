@@ -35,7 +35,8 @@ public class TransactionLoggingAspect {
             return result;
 
         } catch (Throwable t) {
-            log.error("[Transaction] 롤백: {} | 에러: {}", txId, t.getMessage());
+            // 예외는 GlobalExceptionHandler에서 로깅하므로 여기서는 debug 레벨로
+            log.debug("[Transaction] 롤백: {} | 에러: {}", txId, t.getMessage());
             throw t;
 
         } finally {

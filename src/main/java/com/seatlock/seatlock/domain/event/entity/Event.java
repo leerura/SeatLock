@@ -32,9 +32,11 @@ public class Event extends BaseEntity {
     @Column(name = "available_seats", nullable = false)
     private Integer availableSeats;
 
+    /*
     @Version
     @Column(name = "version")
     private Integer version;
+     */
 
     @Builder
     public Event(String eventName, Integer totalSeats, Integer availableSeats) {

@@ -24,7 +24,7 @@ public class DataInitializer implements CommandLineRunner {
     private final EventRepository eventRepository;
     private final SeatRepository seatRepository;
 
-    private static final int TOTAL_MEMBERS = 100_000;
+    private static final int TOTAL_MEMBERS = 5_000;
     private static final int TOTAL_SEATS = 1_000;
     private static final int BATCH_SIZE = 1_000;
 

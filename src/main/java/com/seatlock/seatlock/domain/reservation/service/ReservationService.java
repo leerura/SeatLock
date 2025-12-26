@@ -34,6 +34,7 @@ public class ReservationService {
             throw new CustomException(ErrorCode.SEAT_ALREADY_RESERVED);
         }
 
+
         Event event = seat.getEvent();
         // 3. 중복 예약 체크 (같은 이벤트에 이미 예약했는지)
         Long eventId = event.getId();

@@ -13,10 +13,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = "reservations", uniqueConstraints = {
-        @UniqueConstraint(columnNames = {"member_id", "event_id"}),
-        @UniqueConstraint(columnNames = {"seat_id"})
-})
+@Table(name = "reservations")
 @Getter
 @NoArgsConstructor
 public class Reservation extends BaseEntity {

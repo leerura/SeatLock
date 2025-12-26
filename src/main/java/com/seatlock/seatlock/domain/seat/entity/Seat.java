@@ -51,9 +51,11 @@ public class Seat extends BaseEntity {
     @Column(name = "status", nullable = false, length = 20)
     private SeatStatus status;
 
+    /*
     @Version
     @Column(name = "version", nullable = false)
     private Integer version;
+     */
 
     @Builder
     public Seat(Event event, String seatNumber, SeatStatus status) {

@@ -8,7 +8,7 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: create
     show-sql: true
     properties:
       hibernate:
@@ -23,3 +23,14 @@ logging:
   level:
     org.hibernate.SQL: DEBUG                          # SQL 쿼리 로그
     org.hibernate.type.descriptor.sql.BasicBinder: TRACE  # 파라미터 바인딩 로그
+  file:
+    name: logs/application.log    # 로그 파일 경로 및 이름
+    path: logs                     # 로그 디렉토리
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] [%X{requestId}] [%X{transactionId}] %-5level %logger{36} - %msg%n"
+    file: "%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] [%X{requestId}] [%X{transactionId}] %-5level %logger{36} - %msg%n"
+  logback:
+    rollingpolicy:
+      max-file-size: 10MB         # 파일 하나당 최대 크기
+      max-history: 30             # 최대 30일치 보관
+      total-size-cap: 1GB

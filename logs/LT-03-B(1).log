@@ -65140,3 +65140,8 @@
 2026-01-12 20:52:55.059 [http-nio-8080-exec-129] [40f84490] [] DEBUG c.s.s.d.r.facade.ReservationFacade - 좌석 5번 락 해제 (트랜잭션 커밋 후) - memberId: 9993
 2026-01-12 20:52:55.059 [http-nio-8080-exec-129] [40f84490] [] ERROR c.s.s.g.e.GlobalExceptionHandler - CustomException: code=S002, message=이미 예약된 좌석입니다.
 2026-01-12 20:52:55.059 [http-nio-8080-exec-129] [40f84490] [] INFO  c.s.s.g.filter.RequestLoggingFilter - 요청 완료: 상태코드 400
+2026-01-12 21:09:35.520 [SpringApplicationShutdownHook] [] [] INFO  o.s.b.w.e.tomcat.GracefulShutdown - Commencing graceful shutdown. Waiting for active requests to complete
+2026-01-12 21:09:35.523 [tomcat-shutdown] [] [] INFO  o.s.b.w.e.tomcat.GracefulShutdown - Graceful shutdown complete
+2026-01-12 21:09:35.525 [SpringApplicationShutdownHook] [] [] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-01-12 21:09:35.526 [SpringApplicationShutdownHook] [] [] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+2026-01-12 21:09:35.528 [SpringApplicationShutdownHook] [] [] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.

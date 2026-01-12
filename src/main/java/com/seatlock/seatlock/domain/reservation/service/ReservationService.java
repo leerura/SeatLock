@@ -65,7 +65,6 @@ public class ReservationService {
 
     /**
      * Java Lock (ReentrantLock)용 예약 메서드
-     * Java Lock (ReentrantLock)용 예약 메서드
      */
     public ReservationResponseDTO createReservationWithoutTransaction(Long memberId, Long seatId) {
         log.info("예약 시작 - memberId: {}, seatId: {}", memberId, seatId);
@@ -192,7 +191,7 @@ public class ReservationService {
         Reservation reservation = Reservation.of(memberId, seatId, event.getId());
         reservationRepository.save(reservation);
 
-        log.info("예약 완료 (Event Lock) - reservationId: {}", reservation.getId());
+        log.info("예약 완료 (Atomic UPDATE) - reservationId: {}", reservation.getId());
 
         return ReservationResponseDTO.from(reservation);
     }

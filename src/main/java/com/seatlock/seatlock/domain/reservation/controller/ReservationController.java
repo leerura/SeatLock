@@ -73,7 +73,7 @@ public class ReservationController {
     }
 
     @PostMapping("/seat-lock-atomic-update")
-    public ResponseEntity<ApiResponse<ReservationResponseDTO>> createReservationWithJavaSeatNoEventLock(
+    public ResponseEntity<ApiResponse<ReservationResponseDTO>> createReservationWithJavaSeatAndAtomicUpdate(
             @Valid @RequestBody ReservationRequestDTO request
     ) {
         log.info("[Java No Event Lock] 예약 요청 - memberId: {}, seatId: {}", request.memberId(), request.seatId());

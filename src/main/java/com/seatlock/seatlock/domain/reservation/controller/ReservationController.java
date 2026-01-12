@@ -40,13 +40,13 @@ public class ReservationController {
                 .body(ApiResponse.success(response));
     }
 
-    @PostMapping("/java-lock")
-    public ResponseEntity<ApiResponse<ReservationResponseDTO>> createReservationWithJavaLock(
+    @PostMapping("/seat-lock")
+    public ResponseEntity<ApiResponse<ReservationResponseDTO>> createReservationWithJavaSeatLock(
             @Valid @RequestBody ReservationRequestDTO request
     ) {
-        log.info("[Java Lock] 예약 요청 - memberId: {}, seatId: {}", request.memberId(), request.seatId());
+        log.info("[Java Seat Lock] 예약 요청 - memberId: {}, seatId: {}", request.memberId(), request.seatId());
 
-        ReservationResponseDTO response = reservationFacade.createReservationWithLock(
+        ReservationResponseDTO response = reservationFacade.createReservationWithSeatLock(
                 request.memberId(),
                 request.seatId()
         );
@@ -55,5 +55,41 @@ public class ReservationController {
                 .status(HttpStatus.CREATED)
                 .body(ApiResponse.success(response));
     }
+
+    @PostMapping("/seat-event-lock")
+    public ResponseEntity<ApiResponse<ReservationResponseDTO>> createReservationWithJavaSeatEventLock(
+            @Valid @RequestBody ReservationRequestDTO request
+    ) {
+        log.info("[Java Event Lock] 예약 요청 - memberId: {}, seatId: {}", request.memberId(), request.seatId());
+
+        ReservationResponseDTO response = reservationFacade.createReservationWithSeatEventLock(
+                request.memberId(),
+                request.seatId()
+        );
+
+        return ResponseEntity
+                .status(HttpStatus.CREATED)
+                .body(ApiResponse.success(response));
+    }
+
+    @PostMapping("/seat-lock-atomic-update")
+    public ResponseEntity<ApiResponse<ReservationResponseDTO>> createReservationWithJavaSeatNoEventLock(
+            @Valid @RequestBody ReservationRequestDTO request
+    ) {
+        log.info("[Java No Event Lock] 예약 요청 - memberId: {}, seatId: {}", request.memberId(), request.seatId());
+
+        ReservationResponseDTO response = reservationFacade.createReservationWithSeatLockAndAtomicUpdate(
+                request.memberId(),
+                request.seatId()
+        );
+
+        return ResponseEntity
+                .status(HttpStatus.CREATED)
+                .body(ApiResponse.success(response));
+    }
+
+
+
+
 
 }

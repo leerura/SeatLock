@@ -11,6 +11,7 @@ import java.util.concurrent.locks.ReentrantLock;
 public class LockManager {
 
     private final ConcurrentHashMap<Long, ReentrantLock> locks = new ConcurrentHashMap<>();
+    private final ConcurrentHashMap<Long, Object> eventLocks = new ConcurrentHashMap<>();
 
     /**
      * 좌석 ID에 해당하는 락을 반환
@@ -24,6 +25,10 @@ public class LockManager {
             log.debug("좌석 {}번에 대한 새로운 락 생성", id);
             return new ReentrantLock(true); // fair lock (공정성 보장)
         });
+    }
+
+    public Object getEventLock(Long eventId) {
+        return eventLocks.computeIfAbsent(eventId, id -> new Object());
     }
 
     /**

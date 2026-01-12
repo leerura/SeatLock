@@ -25,7 +25,10 @@ public enum ErrorCode {
     NO_AVAILABLE_SEATS("R004", "예약 가능한 좌석이 없습니다."),
 
     // Database (D)
-    DATABASE_CONNECTION_ERROR("D001", "데이터베이스 연결에 실패했습니다.");
+    DATABASE_CONNECTION_ERROR("D001", "데이터베이스 연결에 실패했습니다."),
+
+    // Event (E)
+    EVENT_SOLD_OUT("E001", "해당 이벤트의 잔여 좌석이 존재하지 않습니다.");
 
 
 

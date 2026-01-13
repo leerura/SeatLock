@@ -161,6 +161,7 @@ public class ReservationService {
     }
 
     // 트랜잭션 내부에서 실행되는 메서드
+    // Redis Lock에서도 재사용
     public ReservationResponseDTO createReservationWithoutTransactionAndAtomicUpdate(Long memberId, Long seatId) {
 
         Seat seat = seatRepository.findById(seatId)

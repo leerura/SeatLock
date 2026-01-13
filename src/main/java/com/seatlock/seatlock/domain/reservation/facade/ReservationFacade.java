@@ -244,8 +244,8 @@ public class ReservationFacade {
         log.debug("좌석 {}번 Redis Lock 획득 시도 - memberId: {}", seatId, memberId);
 
         try {
-            // Redis Lock 획득 (waitTime: 10초, leaseTime: 10초)
-            boolean acquired = lock.tryLock(10, 10, TimeUnit.SECONDS);
+            // Redis Lock 획득 (waitTime: 100ms, leaseTime: 5s)
+            boolean acquired = lock.tryLock(100, 5000, TimeUnit.MILLISECONDS);
 
             if (!acquired) {
                 log.warn("좌석 {}번 Redis Lock 획득 실패 (타임아웃) - memberId: {}", seatId, memberId);

@@ -8,6 +8,8 @@ import com.seatlock.seatlock.global.exception.LockAcquisitionFailedException;
 import com.seatlock.seatlock.global.lock.LockManager;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.redisson.api.RLock;
+import org.redisson.api.RedissonClient;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.support.TransactionTemplate;
@@ -23,6 +25,7 @@ public class ReservationFacade {
     private final ReservationService reservationService;
     private final LockManager lockManager;
     private final TransactionTemplate transactionTemplate;
+    private final RedissonClient redissonClient;
 
     private static final long LOCK_TIMEOUT_MS = 100;
 
@@ -227,6 +230,55 @@ public class ReservationFacade {
         }
     }
 
+    /**
+     * Redis 분산 Lock을 사용한 예약 생성 (멀티 서버 환경용)
+     *
+     * @param memberId 회원 ID
+     * @param seatId 좌석 ID
+     * @return 예약 응답 DTO
+     */
+    public ReservationResponseDTO createReservationWithRedisLock(Long memberId, Long seatId) {
+        String lockKey = "seat:lock:" + seatId;
+        RLock lock = redissonClient.getLock(lockKey);
 
+        log.debug("좌석 {}번 Redis Lock 획득 시도 - memberId: {}", seatId, memberId);
 
+        try {
+            // Redis Lock 획득 (waitTime: 100ms, leaseTime: 5s)
+            boolean acquired = lock.tryLock(100, 5000, TimeUnit.MILLISECONDS);
+
+            if (!acquired) {
+                log.warn("좌석 {}번 Redis Lock 획득 실패 (타임아웃) - memberId: {}", seatId, memberId);
+                throw new LockAcquisitionFailedException(ErrorCode.LOCK_ACQUISITION_FAILED);
+            }
+
+            log.debug("좌석 {}번 Redis Lock 획득 성공 - memberId: {}", seatId, memberId);
+
+            try {
+                // 트랜잭션 시작
+                return transactionTemplate.execute(status -> {
+                    try {
+                        // 기존 Service 메서드 재사용
+                        return reservationService.createReservationWithoutTransactionAndAtomicUpdate(memberId, seatId);
+                    } catch (Exception e) {
+                        status.setRollbackOnly();
+                        throw e;
+                    }
+                });
+
+            } finally {
+                // Lock 해제 (현재 스레드가 보유한 경우에만)
+                if (lock.isHeldByCurrentThread()) {
+                    lock.unlock();
+                    log.debug("좌석 {}번 Redis Lock 해제 (트랜잭션 커밋 후) - memberId: {}", seatId, memberId);
+                }
+            }
+
+        } catch (InterruptedException e) {
+            // 인터럽트 발생 시 처리
+            Thread.currentThread().interrupt();
+            log.error("좌석 {}번 Redis Lock 획득 중 인터럽트 발생 - memberId: {}", seatId, memberId, e);
+            throw new LockAcquisitionFailedException(ErrorCode.LOCK_ACQUISITION_FAILED);
+        }
+    }
 }

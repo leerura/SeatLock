@@ -111,10 +111,26 @@ public class ReservationController {
                 .body(ApiResponse.success(response));
     }
 
+    /**
+     * Redis 분산 Lock을 사용한 예약 생성 (멀티 서버 환경용)
+     *
+     * @param request 예약 요청 DTO (memberId, seatId)
+     * @return 예약 응답
+     */
+    @PostMapping("/redis-lock")
+    public ResponseEntity<ApiResponse<ReservationResponseDTO>> createReservationWithRedisLock(
+            @Valid @RequestBody ReservationRequestDTO request
+    ) {
+        log.info("[Redis Lock] 예약 요청 - memberId: {}, seatId: {}",
+                request.memberId(), request.seatId());
 
+        ReservationResponseDTO response = reservationFacade.createReservationWithRedisLock(
+                request.memberId(),
+                request.seatId()
+        );
 
-
-
-
-
+        return ResponseEntity
+                .status(HttpStatus.CREATED)
+                .body(ApiResponse.success(response));
+    }
 }

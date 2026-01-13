@@ -178,4 +178,55 @@ public class ReservationFacade {
         }
     }
 
+    /**
+     * Java Lock + DB Pessimistic Lock을 사용한 예약 생성 (멀티 서버 환경용)
+     *
+     * - Java Lock: 같은 서버 내에서 빠른 실패 (DB 접근 전 차단)
+     * - DB Lock: 서버 간 동시성 제어 (SELECT FOR UPDATE)
+     *
+     * @param memberId 회원 ID
+     * @param seatId 좌석 ID
+     * @return 예약 응답 DTO
+     */
+    public ReservationResponseDTO createReservationWithDBLock(Long memberId, Long seatId) {
+        ReentrantLock lock = lockManager.getLock(seatId);
+
+        log.debug("좌석 {}번 락 획득 시도 (DB Lock) - memberId: {}", seatId, memberId);
+
+        try {
+            // Java Lock 획득 (같은 서버 내 빠른 실패)
+            boolean acquired = lock.tryLock(LOCK_TIMEOUT_MS, TimeUnit.MILLISECONDS);
+
+            if (!acquired) {
+                log.warn("좌석 {}번 락 획득 실패 (타임아웃) - memberId: {}", seatId, memberId);
+                throw new LockAcquisitionFailedException(ErrorCode.LOCK_ACQUISITION_FAILED);
+            }
+
+            log.debug("좌석 {}번 락 획득 성공 (DB Lock) - memberId: {}", seatId, memberId);
+
+            try {
+                // 트랜잭션 시작 (DB Lock은 트랜잭션 안에서 동작)
+                return transactionTemplate.execute(status -> {
+                    try {
+                        return reservationService.createReservationWithDBLock(memberId, seatId);
+                    } catch (Exception e) {
+                        status.setRollbackOnly();
+                        throw e;
+                    }
+                });
+
+            } finally {
+                lock.unlock();
+                log.debug("좌석 {}번 락 해제 (DB Lock, 트랜잭션 커밋 후) - memberId: {}", seatId, memberId);
+            }
+
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+            log.error("좌석 {}번 락 획득 중 인터럽트 발생 - memberId: {}", seatId, memberId, e);
+            throw new LockAcquisitionFailedException(ErrorCode.LOCK_ACQUISITION_FAILED);
+        }
+    }
+
+
+
 }

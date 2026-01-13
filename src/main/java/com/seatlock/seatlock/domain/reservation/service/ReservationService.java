@@ -196,6 +196,53 @@ public class ReservationService {
         return ReservationResponseDTO.from(reservation);
     }
 
+    /**
+     * Java Lock + DB Pessimistic Lock을 사용한 예약 생성 (멀티 서버 환경용)
+     *
+     * @param memberId 회원 ID
+     * @param seatId 좌석 ID
+     * @return 예약 응답 DTO
+     */
+    public ReservationResponseDTO createReservationWithDBLock(Long memberId, Long seatId) {
+        log.info("예약 시작 (DB Lock) - memberId: {}, seatId: {}", memberId, seatId);
+
+        // 1. 좌석 조회 (DB Pessimistic Lock)
+        Seat seat = seatRepository.findByIdWithLock(seatId)
+                .orElseThrow(() -> new CustomException(ErrorCode.SEAT_NOT_FOUND));
+
+        // 2. 좌석 예약 가능 여부 확인
+        if (!seat.isAvailable()) {
+            throw new CustomException(ErrorCode.SEAT_ALREADY_RESERVED);
+        }
+
+        Event event = seat.getEvent();
+
+        // 3. 중복 예약 체크 (같은 이벤트에 이미 예약했는지)
+        if (reservationRepository.existsByMemberIdAndEventId(memberId, event.getId())) {
+            throw new CustomException(ErrorCode.ALREADY_RESERVED_THIS_EVENT);
+        }
+
+        // 4. Event Atomic UPDATE (기존 로직 유지)
+        int updatedRows = eventRepository.decreaseAvailableSeats(event.getId());
+        if (updatedRows == 0) {
+            throw new CustomException(ErrorCode.EVENT_SOLD_OUT);
+        }
+
+        // 5. 좌석 예약
+        seat.reserve();
+        seatRepository.save(seat);
+
+        // 6. 예약 생성
+        Reservation reservation = Reservation.of(memberId, seatId, event.getId());
+        reservationRepository.save(reservation);
+
+        log.info("예약 완료 (DB Lock) - reservationId: {}", reservation.getId());
+
+        return ReservationResponseDTO.from(reservation);
+    }
+
+
+
 
 
     public Long getEventIdBySeatId(Long seatId) {
